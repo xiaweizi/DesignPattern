@@ -1,10 +1,10 @@
-package com.xiaweizi.design.singleton;
+package com.xiaweizi.design.p01_singleton;
 
-import com.xiaweizi.design.singleton.disrupt.SingletonLazy;
-import com.xiaweizi.design.singleton.disrupt.SingletonStarve;
-import com.xiaweizi.design.singleton.disrupt.SingletonStarveSer;
-import com.xiaweizi.design.singleton.emum.SingletonEnum;
-import com.xiaweizi.design.singleton.undisrupted.SingletonUnDisrupted;
+import com.xiaweizi.design.p01_singleton.disrupt.SingletonLazy;
+import com.xiaweizi.design.p01_singleton.disrupt.SingletonStarve;
+import com.xiaweizi.design.p01_singleton.disrupt.SingletonStarveSer;
+import com.xiaweizi.design.p01_singleton.emum.SingletonEnum;
+import com.xiaweizi.design.p01_singleton.undisrupted.SingletonUnDisrupted;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,7 +15,7 @@ import java.lang.reflect.Constructor;
 /**
  * <pre>
  *     author : xiaweizi
- *     class  : com.xiaweizi.design.singleton.SingletonDemo
+ *     class  : com.xiaweizi.design.p01_singleton.SingletonDemo
  *     e-mail : 1012126908@qq.com
  *     time   : 2018/07/10
  *     desc   :

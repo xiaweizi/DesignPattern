@@ -1,11 +1,11 @@
-package com.xiaweizi.design.singleton.undisrupted;
+package com.xiaweizi.design.p01_singleton.undisrupted;
 
 import java.io.Serializable;
 
 /**
  * <pre>
  *     author : xiaweizi
- *     class  : com.xiaweizi.design.singleton.undisrupted.SingletonUnDisrupted
+ *     class  : com.xiaweizi.design.p01_singleton.undisrupted.SingletonUnDisrupted
  *     e-mail : 1012126908@qq.com
  *     time   : 2018/07/10
  *     desc   :

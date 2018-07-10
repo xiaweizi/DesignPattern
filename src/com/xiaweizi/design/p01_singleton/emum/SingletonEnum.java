@@ -1,9 +1,9 @@
-package com.xiaweizi.design.singleton.emum;
+package com.xiaweizi.design.p01_singleton.emum;
 
 /**
  * <pre>
  *     author : xiaweizi
- *     class  : com.xiaweizi.design.singleton.emum.SingletonEnum
+ *     class  : com.xiaweizi.design.p01_singleton.emum.SingletonEnum
  *     e-mail : 1012126908@qq.com
  *     time   : 2018/07/10
  *     desc   :

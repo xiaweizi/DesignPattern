@@ -2,8 +2,14 @@ package com.xiaweizi.design.singleton;
 
 import com.xiaweizi.design.singleton.disrupt.SingletonLazy;
 import com.xiaweizi.design.singleton.disrupt.SingletonStarve;
+import com.xiaweizi.design.singleton.disrupt.SingletonStarveSer;
 import com.xiaweizi.design.singleton.emum.SingletonEnum;
+import com.xiaweizi.design.singleton.undisrupted.SingletonUnDisrupted;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
 
 /**
@@ -23,7 +29,11 @@ class SingletonDemo {
 //        starvePattern();
 //        enumPattern();
 //        useReflectDestroySingleton1();
-        useReflectDestroySingleton2();
+//        useReflectDestroySingleton2();
+        userSerialDestroySingleton();
+//        useReflectUnDestroySingleton1();
+//        useReflectUnDestroySingleton2();
+        useSerialUnDestroySingleton();
     }
 
     private static void lazyPattern() {
@@ -68,16 +78,98 @@ class SingletonDemo {
     }
 
     private static void useReflectDestroySingleton2() {
-        try{
+        try {
             Class<SingletonEnum> singletonLazyClass = SingletonEnum.class;
             Constructor<SingletonEnum> declaredConstructor = singletonLazyClass.getDeclaredConstructor();
             declaredConstructor.setAccessible(true);
             SingletonEnum singletonLazy1 = declaredConstructor.newInstance();
             SingletonEnum singletonLazy2 = declaredConstructor.newInstance();
             System.out.println("使用反射破坏单例：" + (singletonLazy1 == singletonLazy2));
-        } catch (Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    private static void userSerialDestroySingleton() {
+        SingletonStarveSer singletonStarve1 = SingletonStarveSer.getInstance();
+        wroteObj(singletonStarve1);
+        SingletonStarveSer singletonStarve2 = (SingletonStarveSer) readObj(singletonStarve1);
+        System.out.println("使用序列化破坏单例：" + (singletonStarve1 == singletonStarve2));
+    }
+
+    private static void useReflectUnDestroySingleton1() {
+        try {
+            Class<SingletonUnDisrupted> singletonUnDisruptedClass = SingletonUnDisrupted.class;
+            Constructor<SingletonUnDisrupted> declaredConstructor = singletonUnDisruptedClass.getDeclaredConstructor();
+            declaredConstructor.setAccessible(true);
+            SingletonUnDisrupted singletonUnDisrupted1 = declaredConstructor.newInstance();
+            SingletonUnDisrupted singletonUnDisrupted2 = declaredConstructor.newInstance();
+            System.out.println(singletonUnDisrupted1 == singletonUnDisrupted2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void useReflectUnDestroySingleton2() {
+        try {
+            SingletonUnDisrupted singletonUnDisrupted1 = SingletonUnDisrupted.getInstance();
+            Class<SingletonUnDisrupted> singletonUnDisruptedClass = SingletonUnDisrupted.class;
+            Constructor<SingletonUnDisrupted> declaredConstructor = singletonUnDisruptedClass.getDeclaredConstructor();
+            declaredConstructor.setAccessible(true);
+            SingletonUnDisrupted singletonUnDisrupted2 = declaredConstructor.newInstance();
+            System.out.println(singletonUnDisrupted1 == singletonUnDisrupted2);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void useSerialUnDestroySingleton() {
+        SingletonUnDisrupted singletonUnDisrupted1 = SingletonUnDisrupted.getInstance();
+        wroteObj(singletonUnDisrupted1);
+        SingletonUnDisrupted singletonUnDisrupted2 = (SingletonUnDisrupted) readObj(singletonUnDisrupted1);
+        System.out.println(singletonUnDisrupted1 == singletonUnDisrupted2);
+    }
+
+    private static void wroteObj(Object object) {
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
+        try {
+            fos = new FileOutputStream(object.getClass().getSimpleName() + ".obj");
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(object);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+                oos.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static Object readObj(Object object1) {
+        Object object = null;
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+
+        try {
+            fis = new FileInputStream(object1.getClass().getSimpleName() + ".obj");
+            ois = new ObjectInputStream(fis);
+            object = ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fis.close();
+                ois.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return object;
     }
 
 }

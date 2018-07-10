@@ -4,6 +4,8 @@ import com.xiaweizi.design.singleton.disrupt.SingletonLazy;
 import com.xiaweizi.design.singleton.disrupt.SingletonStarve;
 import com.xiaweizi.design.singleton.emum.SingletonEnum;
 
+import java.lang.reflect.Constructor;
+
 /**
  * <pre>
  *     author : xiaweizi
@@ -19,7 +21,9 @@ class SingletonDemo {
     public static void main(String[] args) {
 //        lazyPattern();
 //        starvePattern();
-        enumPattern();
+//        enumPattern();
+//        useReflectDestroySingleton1();
+        useReflectDestroySingleton2();
     }
 
     private static void lazyPattern() {
@@ -45,4 +49,35 @@ class SingletonDemo {
         singletonEnum1.setName("name");
         System.out.println(singletonEnum2.getName());
     }
+
+    private static void useReflectDestroySingleton1() {
+        try {
+            Class<SingletonLazy> singletonLazyClass = SingletonLazy.class;
+            Constructor<?>[] declaredConstructors = singletonLazyClass.getDeclaredConstructors();
+            for (Constructor<?> declaredConstructor : declaredConstructors) {
+                if (0 == declaredConstructor.getParameterCount() && singletonLazyClass.getName().equals(declaredConstructor.getName())) {
+                    declaredConstructor.setAccessible(true);
+                    SingletonLazy singletonLazy1 = (SingletonLazy) declaredConstructor.newInstance();
+                    SingletonLazy singletonLazy2 = (SingletonLazy) declaredConstructor.newInstance();
+                    System.out.println("使用反射破坏单例:" + (singletonLazy1 == singletonLazy2));
+                }
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private static void useReflectDestroySingleton2() {
+        try{
+            Class<SingletonEnum> singletonLazyClass = SingletonEnum.class;
+            Constructor<SingletonEnum> declaredConstructor = singletonLazyClass.getDeclaredConstructor();
+            declaredConstructor.setAccessible(true);
+            SingletonEnum singletonLazy1 = declaredConstructor.newInstance();
+            SingletonEnum singletonLazy2 = declaredConstructor.newInstance();
+            System.out.println("使用反射破坏单例：" + (singletonLazy1 == singletonLazy2));
+        } catch (Exception e){
+            System.err.println(e.getMessage());
+        }
+    }
+
 }

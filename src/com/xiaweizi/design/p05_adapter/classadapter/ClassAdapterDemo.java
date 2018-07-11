@@ -12,7 +12,7 @@ package com.xiaweizi.design.p05_adapter.classadapter;
 
 class ClassAdapterDemo {
     public static void main(String[] args) {
-        Target target = new Adapter();
-        target.convertToTarget();
+        Volt5 volt5 = new VoltAdapter();
+        System.out.println("输出电压：" + volt5.getVolt5());
     }
 }

@@ -12,7 +12,7 @@ package com.xiaweizi.design.p05_adapter.objectadapter;
 
 class ClassAdapterDemo {
     public static void main(String[] args) {
-        Adapter adapter = new Adapter(new Adaptee());
-        adapter.convertToTarget();
+        Volt5 volt5 = new VoltAdapter(new Volt220());
+        System.out.println(volt5.getVolt5());
     }
 }

@@ -12,7 +12,7 @@ package com.xiaweizi.design.p06_bridge;
 
 abstract class Shape {
 
-    protected Color color;
+    Color color;
 
     public void setColor(Color color) {
         this.color = color;
